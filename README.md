@@ -1,3 +1,5 @@
+Github pages: https://vitalyzz.github.io/testtask/
+
 # test_task
 
 ## Project setup
