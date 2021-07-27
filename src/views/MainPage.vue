@@ -49,11 +49,11 @@ export default {
     isShowPanel() {
       console.log('isSHwo', this.isShowPanel)
       if (this.isShowPanel) {
-        document.querySelector('body').style.overflow = 'hidden';
-        document.querySelector('html').style.overflow = 'hidden';
+        document.querySelector('body').style.overflowX = 'hidden';
+        document.querySelector('html').style.overflowX = 'hidden';
       } else {
-        document.querySelector('body').style.overflow = '';
-        document.querySelector('html').style.overflow = '';
+        document.querySelector('body').style.overflowX = '';
+        document.querySelector('html').style.overflowX = '';
       }
     }
   },
