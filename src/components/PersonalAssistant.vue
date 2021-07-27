@@ -94,11 +94,9 @@ export default {
     &__subtitle {
       margin-bottom: 40px;
     }
-
     &__left-block {
       margin-right: 20px;
     }
-
     &__item {
       &:not(last-child) {
         margin-bottom: 30px;
