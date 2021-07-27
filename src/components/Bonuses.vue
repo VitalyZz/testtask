@@ -108,8 +108,6 @@ export default {
     }
 
     &-icon {
-      margin-top: 20px;
-
       &:nth-child(odd) {
         margin-right: 28px;
       }
@@ -134,6 +132,10 @@ export default {
       }
       &-title {
         font-size: 14px;
+      }
+
+      &-icon {
+        margin-top: 10px;
       }
     }
   }
