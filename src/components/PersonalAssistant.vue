@@ -43,6 +43,9 @@ export default {
 <style scoped lang="scss">
 .personal_assistant {
   padding-bottom: 188px;
+  background-image: url("~@/assets/img/premium-card/lines.svg");
+  background-repeat: no-repeat;
+  background-position: 100% 135px;
 
   &__subtitle {
     font-size: 14px;

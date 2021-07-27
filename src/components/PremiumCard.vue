@@ -49,7 +49,7 @@ export default {
 .premium-card {
   padding-top: 100px;
   padding-bottom: 278px;
-  background-image: url("~@/assets/img/premium-card/credit-card-main.png");
+  background-image: url("~@/assets/img/premium-card/credit-card-main.png"), url("~@/assets/img/premium-card/lines.svg");
   background-repeat: no-repeat;
   background-position: 100% 135px;
   transition: .3s;

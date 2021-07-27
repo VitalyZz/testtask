@@ -8,11 +8,11 @@
 
       <div class="footer__items">
         <ul class="footer__list">
-          <li v-for="item in firstList" :key="item"><a class="footer_item" href="">{{ item }}</a></li>
+          <li v-for="item in firstList" :key="item"><a class="footer__item" href="">{{ item }}</a></li>
         </ul>
 
         <ul class="footer__list">
-          <li v-for="item in secondList" :key="item"><a class="footer_item" href="">{{ item }}</a></li>
+          <li v-for="item in secondList" :key="item"><a class="footer__item" href="">{{ item }}</a></li>
         </ul>
       </div>
 
@@ -27,11 +27,14 @@
         </div>
       </div>
     </div>
+
+    <img class="footer__line" :src="line" alt="line">
   </footer>
 </template>
 
 <script>
 import Logo from "@/components/app/Logo";
+import line from "@/assets/img/footer/line.svg";
 
 export default {
   name: 'the-header',
@@ -39,6 +42,7 @@ export default {
     return {
       firstList: ['О банке', 'Офисы и банкоматы', 'Новости', 'Вакансии', 'Реализуемое имущество'],
       secondList: ['Раскрытие информации', 'Ставки по вкладам', 'Условия и тарифы', 'Корпоративное управление', 'Карта сайта'],
+      line: line
     }
   },
   components: {
@@ -50,6 +54,7 @@ export default {
 <style scoped lang="scss">
 .footer {
   padding-bottom: 55px;
+  position: relative;
 
   &__container {
     max-width: 1110px;
@@ -86,10 +91,18 @@ export default {
     color: #6C6C6C;
   }
 
-  &_item {
+  &__item {
     font-size: 14px;
     line-height: 30px;
     color: #6C6C6C;
+  }
+
+  &__line {
+    position: absolute;
+    top: -150px;
+    left: 0;
+    width: 100%;
+    z-index: -1;
   }
 }
 
