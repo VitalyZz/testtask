@@ -1,4 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import scroll from "@/directives/scroll";
 
-createApp(App).mount('#app')
+const app = createApp(App);
+
+app.directive('scroll', scroll)
+app.mount('#app')
