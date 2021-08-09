@@ -58,6 +58,7 @@ export default {
 
 @media only screen and (max-width: 480px) {
   .message {
+    
     &__subtitle {
       text-align: center;
       padding: 0 10px;
