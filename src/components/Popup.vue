@@ -5,9 +5,9 @@
         <div class="title">Заявка на карту</div>
         <div class="popup__close close" @click="closePopup"></div>
         <form class="popup__form" @submit.prevent="submitHandler">
-          <CustomInput class="popup__form-input" :success="checkFio" :error="!checkFio" v-model="fio">ФИО</CustomInput>
-          <CustomInput class="popup__form-input" :success="checkEmail" :error="!checkEmail" v-model="email">Электронный адрес</CustomInput>
-          <CustomInput class="popup__form-input" :success="checkPhoneNumber" :error="!checkPhoneNumber" v-model="phoneNumber">Номер телефона</CustomInput>
+          <CustomInput class="popup__form-input" :highlight="isHighlight" :success="checkFio" :error="!checkFio" v-model="fio">ФИО</CustomInput>
+          <CustomInput class="popup__form-input" :highlight="isHighlight" :success="checkEmail" :error="!checkEmail" v-model="email">Электронный адрес</CustomInput>
+          <CustomInput class="popup__form-input" :highlight="isHighlight" :success="checkPhoneNumber" :error="!checkPhoneNumber" v-model="phoneNumber" @keypress="isNumber">Номер телефона</CustomInput>
           <CustomSelect @updateCitizenship="updateCitizenship" :list="list">Гражданство</CustomSelect>
           <CustomCheckbox class="popup__form-checkbox" @checkboxChecked="checkboxChecked">
             Я соглашаюсь на <span class="popup__form-label">обработку</span> моих персональных данных
@@ -36,11 +36,12 @@ export default {
   data() {
     return {
       fio: '',
-      email: '',
+      email: 'garshin.1999@inbox.ru',
       phoneNumber: '',
       citizenship: '',
       consent: '',
       isDisabled: true,
+      isHighlight: false,
       list: [
         { title: 'Российская федерация', value: 'ru', selected: true },
         { title: 'Беларусь', value: 'by' },
@@ -57,12 +58,13 @@ export default {
     checkFio() {
       const regex = /[^a-zа-я-\s]+/gi;
 
-      return !regex.test(this.fio) && this.fio.split(' ').length > 1;
+      return !regex.test(this.fio) && this.fio.split(' ').filter(el => el.length >= 1).length > 1;
     },
     checkEmail() {
       const regex = /.+@.+\..+/i;
+      const regex2 = /[а-я]+/i;
 
-      return regex.test(this.email);
+      return regex.test(this.email) && !regex2.test(this.email);
     },
     checkPhoneNumber() {
       const regex = /[^0-9\s+]+/i;
@@ -74,11 +76,17 @@ export default {
   },
   watch: {
     fields() {
-      this.isDisabled = !this.validate();
+      this.isDisabled = !this.consent;
     },
     phoneNumber() {
       if (this.phoneNumber[0] !== '+' && this.phoneNumber.length > 0) {
         this.phoneNumber = '+' + this.phoneNumber;
+      }
+
+      const regex = /[^0-9+]+/i;
+
+      if (regex.test(this.phoneNumber)) {
+
       }
 
       const indexes = [2, 6, 10, 13];
@@ -93,6 +101,10 @@ export default {
     }
   },
   methods: {
+    isNumber(event) {
+      if(/^[0-9+]+$/.test(event.key)) return true;
+      else event.preventDefault();
+    },
     updateCitizenship(citizenship) {
       this.citizenship = citizenship
     },
@@ -112,6 +124,8 @@ export default {
 
         this.closePopup()
         this.openMessage()
+      } else {
+        this.isHighlight = true
       }
     },
     validate() {
@@ -149,9 +163,16 @@ export default {
 
 <style scoped lang="scss">
 .popup {
-  height: 100vh;
+  height: 100%;
   background-color: #000;
   padding-top: 64px;
+  padding-bottom: 20px;
+  position: fixed;
+  overflow-y: overlay;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  width: 100%;
 
   &__container {
     max-width: 680px;

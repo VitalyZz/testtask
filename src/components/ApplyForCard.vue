@@ -20,23 +20,44 @@
       <div class="apply-for-card__right-block">
         <div class="apply-for-card__wrapper">
           <div class="apply-for-card__elements">
-            <div class="apply-for-card__title_active">Кредитная карта</div>
-            <div class="apply-for-card__title">Дебетовая карта</div>
+            <div
+              class="apply-for-card__title" 
+              v-for="card in cards"
+              :key="card.text"
+              :class="{ 'apply-for-card__title_active': card.selected }" 
+              @click="selectCard(card)">
+              {{ card.text }}
+            </div>
           </div>
           <CustomButton class="apply-for-card__send-button" @click="$emit('openPopup', true)">Отправить заявку</CustomButton>
         </div>
 
-        <div class="apply-for-card__wrapper-items">
+        <div class="apply-for-card__wrapper-items" v-if="currentCard.value === 'credit'">
           <div class="apply-for-card__left-side">
-            <div class="apply-for-card__left-side-text" v-for="item in firstList" :key="item">{{ item }}</div>
+            <div class="apply-for-card__left-side-text" v-for="item in firstListCredit" :key="item">{{ item }}</div>
           </div>
 
           <div class="apply-for-card__right-side">
-            <div class="apply-for-card__right-side-text" v-for="item in secondList" :key="item">{{ item }}</div>
+            <div class="apply-for-card__right-side-text" v-for="item in secondListCredit" :key="item">{{ item }}</div>
           </div>
         </div>
 
-        <div class="apply-for-card__more-details">Все подробности</div>
+        <div class="apply-for-card__wrapper-items" v-if="currentCard.value === 'debit'">
+          <div class="apply-for-card__left-side">
+            <div class="apply-for-card__left-side-text" v-for="item in firstListDebit" :key="item">{{ item }}</div>
+          </div>
+
+          <div class="apply-for-card__right-side">
+            <div class="apply-for-card__right-side-text" v-for="item in secondListDebit" :key="item">{{ item }}</div>
+          </div>
+        </div>
+
+        <div class="apply-for-card__more-details" @click="moreDetails = !moreDetails">Все подробности</div>
+
+        <div class="apply-for-card__content" v-if="moreDetails">
+          <span class="apply-for-card__content-item" v-if="currentCard.value === 'credit'">Дополнительная услуга для кредитной карты</span>
+          <span class="apply-for-card__content-item" v-if="currentCard.value === 'debit'">Дополнительная услуга для дебетовой карты</span>
+        </div>
       </div>
     </div>
   </section>
@@ -51,13 +72,33 @@ export default {
   data() {
     return {
       card: Card,
+      showCreditCardContent: true,
+      showDebitCardContent: false,
+      moreDetails: false,
+      cards: [
+        { text: 'Кредитная карта', value: "credit", selected: true },
+        { text: 'Дебетовая карта', value: "debit", selected: false },
+      ],
       items: [
         { text: 'Милями за услуги, оплаченные на travel.ru', value: '11%', prefix: 'до' + '\u00A0' },
         { text: 'Милями за любые покупки по карте', value: '11%', prefix: 'до' + '\u00A0' },
         { text: 'Оплата милями билетов любых авиакомпаний по курсу 1 миля = 1 Р', value: '1 = 1' }
       ],
-      firstList: ['Стоимость карты в год (руб.)', '\u00A0', 'Приветственные мили (шт.)', 'Мили за покупки'],
-      secondList: ['6 490 (без пакета услуг)', '4 990 (с пакетом услуг)', '1000', '5%',],
+      firstListCredit: ['Стоимость карты в год (руб.) (Кредитная)', '\u00A0', 'Приветственные мили (шт.)', 'Мили за покупки'],
+      secondListCredit: ['6 490 (без пакета услуг)', '4 990 (с пакетом услуг)', '1000', '5%',],
+      firstListDebit: ['Стоимость карты в год (руб.) (Дебетовая)', '\u00A0', 'Приветственные мили (шт.)', 'Мили за покупки'],
+      secondListDebit: ['6 490 (без пакета услуг)', '4 990 (с пакетом услуг)', '1000', '5%',],
+    }
+  },
+  computed: {
+    currentCard() {
+      return this.cards.find(el => el.selected === true)
+    }
+  },
+  methods: {
+    selectCard(card) {
+      this.cards.map(el => el.selected = false)
+      this.cards.find(el => el.text === card.text).selected = true
     }
   },
   components: {
@@ -115,7 +156,11 @@ export default {
     font-size: 18px;
     line-height: 23px;
     color: #6C6C6C;
-    margin-left: 42px;
+    cursor: pointer;
+
+    &:last-child {
+      margin-left: 42px;
+    }
 
     &_active {
       font-size: 18px;
@@ -163,6 +208,22 @@ export default {
     line-height: 26px;
     color: #C0965C;
     border-bottom: 1px dashed #C0965C;
+    cursor: pointer;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    font-size: 14px;
+
+    &-item {
+      color: #BBBBBB;
+
+      &:last-child {
+        margin-top: 5px;
+      }
+    }
   }
 }
 

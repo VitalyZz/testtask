@@ -1,8 +1,8 @@
 <template>
   <div class="input-wrapper" @mouseover="makeFocus" @mouseout="removeFocus">
-    <input class="input" type="text" :value="modelValue" @input="updateInput" :style="{ borderColor: error && modelValue !== '' ? '#CC301B' : 'transparent' }">
+    <input class="input" type="text" :value="modelValue" @input="updateInput" :style="{ borderColor: highlight && error ? '#CC301B' : 'transparent' }">
     <span class="input-text" :style="[ modelValue ? { top: '20px', fontSize: '14px' } : { } ]"><slot/></span>
-    <span class="input-error-text" v-if="error && modelValue !== ''">Некорректно введены данные</span>
+    <span class="input-error-text" v-if="highlight && error">Некорректно введены данные</span>
     <img class="input-img" v-if="error && modelValue !== ''" :src="errorImg" alt="error">
     <img class="input-img" v-if="success && modelValue !== ''" :src="SuccessImg" alt="success">
   </div>
@@ -22,6 +22,9 @@ export default {
       type: Boolean,
     },
     success: {
+      type: Boolean,
+    },
+    highlight: {
       type: Boolean,
     }
   },
